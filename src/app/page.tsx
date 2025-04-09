@@ -3,6 +3,8 @@
 import { HiMagnifyingGlass } from "react-icons/hi2";
 import { ActivityChart } from "./components/ActivityChart";
 import { Sidebar } from "./components/Sidebar";
+import { RecentActivity } from "./components/RecentActivity";
+import { StackLabels } from "./components/StackLabels";
 
 export default function Home() {
 
@@ -11,7 +13,7 @@ export default function Home() {
       <div className="flex relative">
         <Sidebar />
       </div>
-      <div className="bg-white text-black grid grid-rows-[20px_1fr_20px]">
+      <div className="relative bg-white text-black grid grid-rows-[20px_1fr_20px]">
         <div className="flex items-center justify-between p-10 mt-3">
           <h1 className="text-3xl font-bold">Dashboard Overview</h1>
           <div className="relative">
@@ -51,11 +53,12 @@ export default function Home() {
           </div>
           <div className="flex flex-row items-center gap-8">
             <div className="flex flex-col bg-white outline-2 outline-gray-200 rounded-lg px-8 py-6">
-              <h2 className="text-2xl font-bold">Recent Activity</h2>
-              <ActivityChart />
+              <h2 className="text-2xl font-bold mb-2">Recent Activity</h2>
+              <RecentActivity />
             </div>
           </div>
         </main>
+        <StackLabels />
       </div>
     </div>
   );
