@@ -1,10 +1,13 @@
 // server/routers/user.ts
 //import { z } from "zod";
 import { router, publicProcedure } from "../trpc";
-import { activityData } from "@/data/infos";
+import { activityData, userActivityData } from "@/data/infos";
 
 export const infoRouter = router({
   getActivityData: publicProcedure.query(() => {
     return activityData;
+  }),
+  getUserActivityData: publicProcedure.query(() => {
+    return userActivityData;
   }),
 });

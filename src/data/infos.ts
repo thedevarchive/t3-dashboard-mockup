@@ -26,6 +26,23 @@ export const activityData: ActivityItem[] = [
         time: '45 min ago'
     }
 ];
-  
+
+type UserActivityItem = {
+    id: number, 
+    dayOfWeek: string,
+    value: number
+}
+
+export const userActivityData: UserActivityItem[] = [
+    { id: 1, dayOfWeek: 'Mon', value: 30 },
+    { id: 2, dayOfWeek: 'Tue', value: 60 },
+    { id: 3, dayOfWeek: 'Wed', value: 40 },
+    { id: 4, dayOfWeek: 'Thu', value: 90 },
+    { id: 5, dayOfWeek: 'Fri', value: 70 },
+    { id: 6, dayOfWeek: 'Sat', value: 100 },
+    { id: 7, dayOfWeek: 'Sun', value: 120 },
+    { id: 8, dayOfWeek: 'Mon', value: 80 },
+    { id: 9, dayOfWeek: 'Tue', value: 110 }
+  ];
   
   

@@ -1,7 +1,8 @@
-"use client"; 
+"use client";
 
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Tooltip, Legend } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import { trpc } from '@/lib/trpc/client';
 
 // Register Chart.js components
 ChartJS.register(
@@ -13,25 +14,17 @@ ChartJS.register(
   Legend
 );
 
-const data = [
-  { name: 'Mon', value: 30 },
-  { name: 'Tue', value: 60 },
-  { name: 'Wed', value: 40 },
-  { name: 'Thu', value: 90 },
-  { name: 'Fri', value: 70 },
-  { name: 'Sat', value: 100 },
-  { name: 'Sun', value: 120 },
-  { name: 'Mon', value: 80 },
-  { name: 'Tue', value: 110 }
-];
-
 export const ActivityChart = () => {
+  const { data: userActivityData, isLoading } = trpc.info.getUserActivityData.useQuery();
+
+  if (isLoading) return <div>Loading...</div>;
+
   const chartData = {
-    labels: data.map(item => item.name),
+    labels: userActivityData?.map(item => item.dayOfWeek),
     datasets: [
       {
         label: 'User Activity',
-        data: data.map(item => item.value),
+        data: userActivityData?.map(item => item.value),
         borderColor: '#3b82f6',
         backgroundColor: '#3b82f6',
         borderWidth: 3,
