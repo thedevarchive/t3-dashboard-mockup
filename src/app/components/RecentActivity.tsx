@@ -1,36 +1,13 @@
 // src/app/components/RecentActivity.tsx
 import React from 'react';
 import { ActivityAvatar } from './Avatars';
-
-type ActivityItem = {
-    id: number;
-    user: string;
-    action: string;
-    time: string;
-};
-
-const activityData: ActivityItem[] = [
-    {
-        id: 1,
-        user: 'John Doe',
-        action: 'Created a new project',
-        time: '5 min ago'
-    },
-    {
-        id: 2,
-        user: 'Sarah Smith',
-        action: 'Updated task status',
-        time: '12 min ago'
-    },
-    {
-        id: 3,
-        user: 'Alex Johnson',
-        action: 'Commented on issue #42',
-        time: '45 min ago'
-    }
-];
+import { trpc } from "@/lib/trpc/client";
 
 export const RecentActivity = () => {
+    const { data: activityData, isLoading } = trpc.info.getActivityData.useQuery();
+  
+    if (isLoading) return <div>Loading...</div>;
+    
     return (
         <>
             {/* Table Header */}
@@ -42,7 +19,7 @@ export const RecentActivity = () => {
 
             {/* Table Rows */}
             <div className="divide-y divide-gray-200">
-                {activityData.map((item) => (
+                {activityData?.map((item) => (
                     <div key={item.id} className="grid grid-cols-12 p-3 items-center">
                         <div className="col-span-3 flex items-center">
                             {/* User Avatar Circle */}

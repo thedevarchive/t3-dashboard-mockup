@@ -3,7 +3,7 @@
 import { router, publicProcedure } from "../trpc";
 import { activityData } from "@/data/infos";
 
-export const cryptoRouter = router({
+export const infoRouter = router({
   getActivityData: publicProcedure.query(() => {
     return activityData;
   }),
