@@ -6,8 +6,12 @@ import { Sidebar } from "./components/Sidebar";
 import { RecentActivity } from "./components/RecentActivity";
 import { StackLabels } from "./components/StackLabels";
 
-export default function Home() {
+import { trpc } from "@/lib/trpc/client";
 
+export default function Home() {
+  const { data: overview, isLoading } = trpc.info.getDashboardOverview.useQuery();
+
+  if (isLoading) return <div>Loading...</div>;
   return (
     <div className="flex flex-row min-h-screen max-w-screen-lg mx-auto">
       <div className="flex relative">
@@ -26,22 +30,22 @@ export default function Home() {
             <div className="bg-white outline-2 outline-gray-200 rounded-lg px-8 py-6 w-55 h-30">
               <p className="text-gray-500">Total Users</p>
               <div className="flex flex-row">
-                <p className="text-4xl font-bold mr-2">4,287</p>
+                <p className="text-4xl font-bold mr-2">{overview?.totalUsers}</p>
                 <p className="text-green-600 mt-4">+12%</p>
               </div>
             </div>
             <div className="bg-white outline-2 outline-gray-200 rounded-lg px-8 py-6 w-55 h-30">
               <p className="text-gray-500">New Projects</p>
               <div className="flex flex-row">
-                <p className="text-4xl font-bold mr-2">248</p>
+                <p className="text-4xl font-bold mr-2">{overview?.newProjects}</p>
                 <p className="text-green-600 mt-4">+5%</p>
               </div>
             </div>
             <div className="bg-white outline-2 outline-gray-200 rounded-lg px-8 py-6 w-55 h-30">
               <p className="text-gray-500">Active Tasks</p>
               <div className="flex flex-row">
-                <p className="text-4xl font-bold mr-2">248</p>
-                <p className="text-green-600 mt-4">+5%</p>
+                <p className="text-4xl font-bold mr-2">{overview?.activeTasks}</p>
+                <p className="text-red-600 mt-4">-2%</p>
               </div>
             </div>
           </div>
