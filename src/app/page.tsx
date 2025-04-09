@@ -7,9 +7,23 @@ import { RecentActivity } from "./components/RecentActivity";
 import { StackLabels } from "./components/StackLabels";
 
 import { trpc } from "@/lib/trpc/client";
+import { useEffect, useState } from "react";
+import { formatRate } from "@/lib/formatters";
 
 export default function Home() {
+  const [totalUsersRate, setTotalUsersRate] = useState(0);
+  const [newProjectsRate, setNewProjectsRate] = useState(0);
+  const [activeTasksRate, setActiveTasksRate] = useState(0);
+
   const { data: overview, isLoading } = trpc.info.getDashboardOverview.useQuery();
+
+  useEffect(() => {
+    if(overview) {
+      setActiveTasksRate(overview.activeTasksRate); 
+      setNewProjectsRate(overview.newProjectsRate); 
+      setTotalUsersRate(overview.totalUsersRate); 
+    }
+  }, [overview]); 
 
   if (isLoading) return <div>Loading...</div>;
   return (
@@ -30,22 +44,22 @@ export default function Home() {
             <div className="bg-white outline-2 outline-gray-200 rounded-lg px-8 py-6 w-55 h-30">
               <p className="text-gray-500">Total Users</p>
               <div className="flex flex-row">
-                <p className="text-4xl font-bold mr-2">{overview?.totalUsers}</p>
-                <p className="text-green-600 mt-4">+12%</p>
+                <p className="text-4xl font-bold mr-2">{overview?.totalUsers.toLocaleString()}</p>
+                <p className={`${totalUsersRate !== 0 ? (totalUsersRate > 0 ? "text-green-600" : "text-red-600") : "text-black"} mt-4`}>{formatRate(totalUsersRate)}</p>
               </div>
             </div>
             <div className="bg-white outline-2 outline-gray-200 rounded-lg px-8 py-6 w-55 h-30">
               <p className="text-gray-500">New Projects</p>
               <div className="flex flex-row">
-                <p className="text-4xl font-bold mr-2">{overview?.newProjects}</p>
-                <p className="text-green-600 mt-4">+5%</p>
+                <p className="text-4xl font-bold mr-2">{overview?.newProjects.toLocaleString()}</p>
+                <p className={`${newProjectsRate !== 0 ? (newProjectsRate > 0 ? "text-green-600" : "text-red-600") : "text-black"} mt-4`}>{formatRate(newProjectsRate)}</p>
               </div>
             </div>
             <div className="bg-white outline-2 outline-gray-200 rounded-lg px-8 py-6 w-55 h-30">
               <p className="text-gray-500">Active Tasks</p>
               <div className="flex flex-row">
-                <p className="text-4xl font-bold mr-2">{overview?.activeTasks}</p>
-                <p className="text-red-600 mt-4">-2%</p>
+                <p className="text-4xl font-bold mr-2">{overview?.activeTasks.toLocaleString()}</p>
+                <p className={`${activeTasksRate !== 0 ? (activeTasksRate > 0 ? "text-green-600" : "text-red-600") : "text-black"} mt-4`}>{formatRate(activeTasksRate)}</p>
               </div>
             </div>
           </div>
